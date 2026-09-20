@@ -1,0 +1,28 @@
+{
+  "name": "playwright-automation",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "tests-headless": "npx playwright test",
+    "tests-headed": "npx playwright test --headed",
+    "test:spesific-headless": "npx playwright test --grep empty.spec.js",
+    "test:spesific-headed": "npx playwright test --grep example.spec.js --headed",
+    "test:tags": "npx playwright test --grep @smoke",
+    "test:report": "npx playwright show-report",
+    "test:debug": "npx playwright test --debug",
+    "test: UI": "npx playwright test --ui",
+    "test:google": "npx playwright test tests/google.spec.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.5.1",
+    "dotenv": "^18.0.1"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^10.6.0"
+  }
+}
