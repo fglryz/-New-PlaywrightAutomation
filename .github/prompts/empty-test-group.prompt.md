@@ -10,7 +10,7 @@ Requirements:
 - Import `test` from `@playwright/test` using ES Module syntax.
 - Use `test.describe()` to create the test group.
 - Leave the test group description as an empty string.
-- Create exactly five `test()` functions inside the test group.
+- Create exactly three `test()` functions inside the test group.
 - Leave the description of each test as an empty string.
 - Use the Playwright `page` fixture in each test: `async ({ page }) =>`.
 - Do not include anything in the body of the test functions.

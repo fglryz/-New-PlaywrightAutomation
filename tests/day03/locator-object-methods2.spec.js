@@ -13,8 +13,9 @@ test.describe("", () => {
     let headerElement = page.locator(
       "//span[@class='h1y' and .='Test Automation Practice']",
     ); ;
-    let actualText = await headerElement.innerText();
-    console.log(actualText);
+    expect(headerElement).toBe('Test Automation Practice');
+    // let actualText = await headerElement.innerText();
+    // console.log(actualText);
     
     
   });

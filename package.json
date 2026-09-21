@@ -6,7 +6,7 @@
     "tests-headless": "npx playwright test",
     "tests-headed": "npx playwright test --headed",
     "test:spesific-headless": "npx playwright test --grep empty.spec.js",
-    "test:spesific-headed": "npx playwright test --grep example.spec.js --headed",
+    "test:spesific-headed": "npx playwright test --grep assestionIntro.spec.js --headed",
     "test:tags": "npx playwright test --grep @smoke",
     "test:report": "npx playwright show-report",
     "test:debug": "npx playwright test --debug",
