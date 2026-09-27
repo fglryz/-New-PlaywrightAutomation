@@ -1,0 +1,16 @@
+Week03
+
+    Topics:
+        Gherkin Syntaxes
+        Playwright modul03 review
+        dotenv & js-faker
+
+
+Next Week:
+    During the week days:
+        Jenkins Job Configurations (3 hours videos)
+        Feature files for SEP User stories
+
+    During the live class:
+        GitHub Actions ( .yml )
+        Browser & Context Fixture for UI testing

@@ -9,7 +9,7 @@ Use this skill when the user provides an HTML element or DOM fragment and asks f
 
 ## Objective
 
-Return the shortest **unique, readable, and resilient** locator that reflects how a real user would identify the element. Prefer accessibility semantics and explicit application contracts over implementation details such as CSS classes, DOM depth, or generated IDs.
+Return the shortest **unique, readable, and resilient** locator that reflects how a real user would identify the element. Prefer Playwright's user-facing locators and accessibility semantics over implementation details such as CSS classes, DOM depth, or generated IDs.
 
 Do not guess from an incomplete snippet. If the supplied HTML does not contain enough information to establish a stable locator, say what context is missing and provide the safest qualified fallback only when one is demonstrably unique.
 
@@ -29,14 +29,14 @@ Do not guess from an incomplete snippet. If the supplied HTML does not contain e
 
 ## Strategy decision policy
 
-First classify the target as a form control, named interactive control, semantic text element, or generic element. Then choose the first applicable option below. This prevents a generic role such as `textbox` from displacing a clear explicit form label:
+First classify the target as a form control, named interactive control, semantic text element, or generic element. Then choose the first applicable option below. For form controls, prefer an explicit label over a role or placeholder. For named non-form controls, prefer their role and accessible name:
 
 | Priority | Use when | Delegate to |
 | --- | --- | --- |
 | 1 | The target is a form control with a real associated `<label>`, or a usable `aria-label`/`aria-labelledby`, and that label is the clearest stable user-facing identifier. | `.github/prompts/getByLabel-locator.prompt.md` |
-| 2 | The element has a meaningful implicit or explicit ARIA role and a stable accessible name. This is preferred for buttons, links, headings, checkboxes, radios, tabs, menus, dialogs, and named interactive controls without a clearer form label. | `.github/prompts/getByRole-locator.prompt.md` |
-| 3 | The element has meaningful, stable, user-visible text and is not better identified by role or label. Use the smallest text value that remains unique. | `.github/prompts/getByText-locator.prompt.md` |
-| 4 | The element is a form control with a meaningful, stable placeholder and no better label or role/name locator. A placeholder is a hint, not a substitute for an accessible label. | `.github/prompts/getByPlaceHolder-locator.prompt.md` |
+| 2 | The element has a meaningful implicit or explicit ARIA role and a stable accessible name. Prefer this for buttons, links, headings, checkboxes, radios, tabs, menus, dialogs, and named interactive controls without a clearer form label. | `.github/prompts/getByRole-locator.prompt.md` |
+| 3 | The element is a form control with a meaningful, stable placeholder and has no usable label. A placeholder is a hint, not a substitute for an accessible label. | `.github/prompts/getByPlaceHolder-locator.prompt.md` |
+| 4 | The element has meaningful, stable, user-visible text and is not better identified by role or label. Use the smallest text value that remains unique. | `.github/prompts/getByText-locator.prompt.md` |
 | 5 | The element exposes an intentional, stable `data-testid` (or the project's configured test ID attribute) and semantic/user-facing locators are unavailable or ambiguous. | `.github/prompts/getByTestID-locator.prompt.md` |
 | 6 | No semantic, text, placeholder, or test ID locator is reliable, but a stable unique `id`, `name`, `data-*`, or other attribute exists. Use the smallest CSS selector possible. | `.github/prompts/css-locator.prompt.md` |
 
@@ -45,11 +45,13 @@ First classify the target as a form control, named interactive control, semantic
 - Prefer `getByRole()` for a named button or link even when its visible text could also produce `getByText()`.
 - Prefer `getByLabel()` for a form control with an explicit label; use `getByRole()` for buttons, links, headings, and other named non-form controls.
 - Treat `aria-label` and `aria-labelledby` as accessible names. Use `getByLabel()` for form controls and `getByRole()` for other named elements.
+- Do not treat a placeholder as a role's accessible name; use `getByPlaceholder()` only when the control has no usable label.
 - Do not use `getByText()` for icon-only controls, dynamic data, timestamps, generated IDs, or long prose.
 - Do not use `getByTestId()` merely because it is easy; use it when the test ID is an intentional stable contract.
 - Never choose CSS because a class happens to be short. CSS is the fallback for elements that cannot be identified reliably through user-facing semantics.
 - Avoid `nth()`, `first()`, `last()`, positional CSS, broad substring matches, and selectors based on `class`, `style`, or DOM structure unless the HTML proves no safer choice exists.
 - Do not invent an accessible name, role, test ID, or surrounding container that is not present in the input.
+- Do not claim page-wide uniqueness from an isolated fragment. If the page or container context is missing, qualify the confidence and mention that the locator should be checked with `toHaveCount(1)` or equivalent.
 - HTML alone cannot prove uniqueness across an entire page unless the caller supplies the relevant page or container context. Report `Confidence: medium` when uniqueness is inferred only from the fragment, and `Confidence: low` when a stable uniqueness signal is absent.
 
 ## Prompt-agent contracts

@@ -1,6 +1,6 @@
 ---
 name: xpath-locator
-description: Generate a short and unique CSS locator from HTML
+description: Generate a short and unique XPath locator from HTML
 agent: ask
 ---
 
