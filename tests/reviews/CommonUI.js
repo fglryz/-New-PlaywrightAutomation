@@ -51,7 +51,7 @@ export class CommonUI {
   static async fillingCardDetails(
     page,
     cardNumber = "4242 4242 4242 4242",
-    expiry = "12 / 34",
+    expiry = "12/34",
     cvc = "123",
     postalCode = "12345",
   ) {
